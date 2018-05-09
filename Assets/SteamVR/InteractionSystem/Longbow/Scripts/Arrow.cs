@@ -94,6 +94,13 @@ namespace Valve.VR.InteractionSystem
 			prevHeadPosition = arrowHeadRB.transform.position;
 			prevVelocity = GetComponent<Rigidbody>().velocity;
 
+			//Custom
+			GetComponent<Rigidbody>().useGravity = false;
+
+			GravityManager.Instance.Affect (GetComponent<Rigidbody> ());
+
+			//end custom
+
 			Destroy( gameObject, 30 );
 		}
 
