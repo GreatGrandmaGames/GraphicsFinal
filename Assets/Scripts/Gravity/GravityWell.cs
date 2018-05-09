@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class GravityWell : MonoBehaviour {
 
-	static float bigG = 1f;
+	static float bigG = 100f;
 
 	Rigidbody rb;
 
@@ -20,8 +20,6 @@ public class GravityWell : MonoBehaviour {
 		float dist = Vector3.Distance (transform.position, objPosition);
 
 		float forceAmount = (bigG * rb.mass * objMass) / (dist * dist);
-		Debug.Log (bigG + " " + rb.mass + " " + objMass + " " + dist);
-		Debug.Log (forceAmount);
 
 		return new Vector3 (transform.position.x - objPosition.x, transform.position.y - objPosition.y, transform.position.z - objPosition.z) * forceAmount;
 	}

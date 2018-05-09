@@ -72,11 +72,6 @@ namespace Valve.VR.InteractionSystem
 				glintParticle.Play();
 			}
 
-			if ( gameObject.GetComponentInChildren<FireSource>().isBurning )
-			{
-				fireReleaseSound.Play();
-			}
-
 			// Check if arrow is shot inside or too close to an object
 			RaycastHit[] hits = Physics.SphereCastAll( transform.position, 0.01f, transform.forward, 0.80f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore );
 			foreach ( RaycastHit hit in hits )
@@ -95,9 +90,13 @@ namespace Valve.VR.InteractionSystem
 			prevVelocity = GetComponent<Rigidbody>().velocity;
 
 			//Custom
-			GetComponent<Rigidbody>().useGravity = false;
+			foreach(Rigidbody rb in GetComponentsInChildren<Rigidbody>())
+			{
+				rb.useGravity = false;
+				rb.isKinematic = false;
 
-			GravityManager.Instance.Affect (GetComponent<Rigidbody> ());
+				GravityManager.Instance.SetArrow(rb);
+			}
 
 			//end custom
 
