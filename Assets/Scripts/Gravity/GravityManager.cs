@@ -3,20 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GravityManager : MonoBehaviour {
+
+	static GravityManager instance;
 	 
-	[SerializeField]
-	public List<Rigidbody> toAffect;
+	List<Rigidbody> toAffect;
 	GravityWell[] gravityWells;
 
+	public static GravityManager Instance {
+		get {
+			return instance;
+		}
+	}
+
 	void Start () {
+
+		if (instance != null) {
+			Debug.LogError ("Cannot have two gravity managers!");
+		}
+
+		instance = this;
 
 		gravityWells = Object.FindObjectsOfType<GravityWell> ();
 
 	}
+
+	public void Affect(Rigidbody rb){
+		toAffect.Add (rb);
+	}
+
 	
 	void FixedUpdate () {
 
-		foreach (Rigidbody a in toAffect) {
+		for(int i = toAffect.Count - 1; i >= 0; i--) {
+
+			Rigidbody a = toAffect [i];
+
+			//Removes any destroyed objects
+			if (a == null) {
+				toAffect.RemoveAt (i);
+				continue;
+			}
 
 			Vector3 sumOfForces = new Vector3 ();
 
@@ -30,7 +56,6 @@ public class GravityManager : MonoBehaviour {
 				sumOfForces = new Vector3 (sumOfForces.x + force.x, sumOfForces.y + force.y, sumOfForces.z + force.z);
 			}
 
-			Debug.Log (sumOfForces);
 			a.AddForce (sumOfForces);
 		}
 	}
