@@ -7,21 +7,34 @@ using UnityEngine;
 public class UserHandControlBoy : MonoBehaviour
 {
 	private Hand hand;
+	private Hand.AttachmentFlags attachmentFlags = Hand.defaultAttachmentFlags & Hand.AttachmentFlags.SnapOnAttach & Hand.AttachmentFlags.DetachOthers;
+
+	public Hand otherHand;
 
 	public GameObject prefabPlanet;
 	private GameObject currentPlanet;
-	
+
 	// Use this for initialization
-	void Start ()
+	void Start()
 	{
 		hand = GetComponent<Hand>();
-		SpawnPlanet();
+
+		Debug.Log(hand);
+
+		if (hand.startingHandType == Hand.HandType.Right) { 
+			SpawnPlanet();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		HandControls hc = ControlsManager.Instance.GetControlsFromHand(hand);
+		Debug.Log(currentPlanet + "IN update");
+
+
+		HandControls rightHandControls = ControlsManager.Instance.GetControlsFromHand(hand);
+		HandControls leftHandControls = ControlsManager.Instance.GetControlsFromHand(otherHand);
+
 
 		/*
 		if (hc.TriggerPulled.Down)
@@ -29,51 +42,66 @@ public class UserHandControlBoy : MonoBehaviour
 			shoot();
 		}
 		*/
+
+		Debug.Log(hand.startingHandType);
 		
-		if (hand.startingHandType == Hand.HandType.Right)
-		{
-			if (hc.TriggerPulled.Down)
+			if (rightHandControls.TriggerPulled.Down)
 			{
-				//Place();
-				//SpawnPlanet();
+				Place();
+				SpawnPlanet();
 			}
-			if (hc.TouchPadLocation.y > 0)
+			
+			if (rightHandControls.TouchPadLocation.y > 0)
 			{
 				//increase Z (farther away from you)
 			}
-			if (hc.TouchPadLocation.y < 0)
+			if (rightHandControls.TouchPadLocation.y < 0)
 			{
 				//decrease Z (closer to you)
 			}
-		}
 
-		if (hand.startingHandType == Hand.HandType.Left)
-		{
+		
 			float scale = .1f;
-			if (hc.TouchPadLocation.y > 0)
+
+			if (leftHandControls.TouchPadPressed.Any)
 			{
-				Vector3 newLocation = new Vector3(currentPlanet.transform.localScale.x + Time.deltaTime * scale, currentPlanet.transform.localScale.y + Time.deltaTime * scale, currentPlanet.transform.localScale.z + Time.deltaTime * scale);
-				currentPlanet.transform.localScale = newLocation;
+				if (leftHandControls.TouchPadLocation.y > 0)
+				{
+					Debug.Log(currentPlanet + "IN TOUCHPADPRESSED");
+					Vector3 newLocation = new Vector3(currentPlanet.transform.localScale.x + Time.deltaTime * scale, currentPlanet.transform.localScale.y + Time.deltaTime * scale, currentPlanet.transform.localScale.z + Time.deltaTime * scale);
+					currentPlanet.transform.localScale = newLocation;
+					Debug.Log("Scaling up");
+
+				}
+				if (leftHandControls.TouchPadLocation.y < 0)
+				{
+					Vector3 newLocation = new Vector3(currentPlanet.transform.localScale.x + Time.deltaTime * -scale, currentPlanet.transform.localScale.y + Time.deltaTime * -scale, currentPlanet.transform.localScale.z + Time.deltaTime * -scale);
+					currentPlanet.transform.localScale = newLocation;
+
+					Debug.Log("Scaling down");
+				}
 			}
-			if (hc.TouchPadLocation.y < 0)
-			{
-				Vector3 newLocation = new Vector3(currentPlanet.transform.localScale.x + Time.deltaTime * -scale, currentPlanet.transform.localScale.y + Time.deltaTime * -scale, currentPlanet.transform.localScale.z + Time.deltaTime * -scale);
-				currentPlanet.transform.localScale = newLocation;
-			}
-		}
+		
+		/*
 		if (hand.controller.GetAxis(Valve.VR.EVRButtonId.k_EButton_Grip).y > 0)
 		{
 			//switch ?!?!??!?
 		}
+		*/
 	}
 
 	void SpawnPlanet()
 	{
 		//instantiate planet
-		Vector3 vec3 = new Vector3(0, 0, 0);
-		currentPlanet = Instantiate(prefabPlanet, vec3, Quaternion.identity);
-		hand.AttachObject(currentPlanet);
+		currentPlanet = Instantiate(prefabPlanet, Vector3.zero, Quaternion.identity);
+		Debug.Log(currentPlanet + "IN SPAWNPLANET()");
+		currentPlanet.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+		hand.AttachObject(currentPlanet, this.attachmentFlags);
 		hand.HoverLock(currentPlanet.GetComponent<Interactable>());
+
+		Debug.Log(currentPlanet + "AFTER HOVERLOCK");
+
 		//childs it to the hand
 		Debug.Log("Planet Spawned!");
 	}
@@ -81,6 +109,7 @@ public class UserHandControlBoy : MonoBehaviour
 	void Place()
 	{
 		//detach it from the hand
+		Debug.Log("PLACE IS CALLED");
 		hand.DetachObject(currentPlanet);
 		hand.HoverUnlock(currentPlanet.GetComponent<Interactable>());
 	}
