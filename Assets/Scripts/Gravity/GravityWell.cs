@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class GravityWell : MonoBehaviour {
 
-	static float bigG = 1f;
+	static float bigG = 100f;
 
 	Rigidbody rb;
 

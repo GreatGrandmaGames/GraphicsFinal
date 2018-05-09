@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GravityManager : MonoBehaviour {
 
@@ -25,6 +26,9 @@ public class GravityManager : MonoBehaviour {
 
 		gravityWells = Object.FindObjectsOfType<GravityWell> ();
 
+		//toAffect = new List<Rigidbody>();
+		toAffect = Object.FindObjectsOfType<Rigidbody>().ToList();
+
 	}
 
 	public void Affect(Rigidbody rb){
@@ -34,7 +38,10 @@ public class GravityManager : MonoBehaviour {
 	
 	void FixedUpdate () {
 
+		Debug.Log(toAffect.Count);
+
 		for(int i = toAffect.Count - 1; i >= 0; i--) {
+
 
 			Rigidbody a = toAffect [i];
 
@@ -43,6 +50,9 @@ public class GravityManager : MonoBehaviour {
 				toAffect.RemoveAt (i);
 				continue;
 			}
+
+			Debug.Log(a.name);
+
 
 			Vector3 sumOfForces = new Vector3 ();
 
