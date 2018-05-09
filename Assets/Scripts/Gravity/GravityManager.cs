@@ -7,8 +7,9 @@ public class GravityManager : MonoBehaviour {
 
 	static GravityManager instance;
 	 
-	List<Rigidbody> toAffect;
+	Rigidbody arrow;
 	GravityWell[] gravityWells;
+
 
 	public static GravityManager Instance {
 		get {
@@ -25,48 +26,28 @@ public class GravityManager : MonoBehaviour {
 		instance = this;
 
 		gravityWells = Object.FindObjectsOfType<GravityWell> ();
-
-		//toAffect = new List<Rigidbody>();
-		toAffect = Object.FindObjectsOfType<Rigidbody>().ToList();
-
 	}
 
-	public void Affect(Rigidbody rb){
-		toAffect.Add (rb);
+	public void SetArrow(Rigidbody rb){
+		this.arrow = rb;
 	}
 
 	
 	void FixedUpdate () {
 
-		Debug.Log(toAffect.Count);
+		if(arrow != null)
+		{
+			Vector3 sumOfForces = new Vector3();
 
-		for(int i = toAffect.Count - 1; i >= 0; i--) {
+			foreach (GravityWell gw in gravityWells)
+			{
 
+				Vector3 force = gw.GetGravitationalForce(arrow.transform.position, arrow.mass);
 
-			Rigidbody a = toAffect [i];
-
-			//Removes any destroyed objects
-			if (a == null) {
-				toAffect.RemoveAt (i);
-				continue;
+				sumOfForces = new Vector3(sumOfForces.x + force.x, sumOfForces.y + force.y, sumOfForces.z + force.z);
 			}
 
-			Debug.Log(a.name);
-
-
-			Vector3 sumOfForces = new Vector3 ();
-
-			foreach (GravityWell gw in gravityWells) {
-				if (a == gw) {
-					continue;
-				}
-
-				Vector3 force = gw.GetGravitationalForce (a.transform.position, a.GetComponent<Rigidbody>().mass);
-
-				sumOfForces = new Vector3 (sumOfForces.x + force.x, sumOfForces.y + force.y, sumOfForces.z + force.z);
-			}
-
-			a.AddForce (sumOfForces);
+			arrow.AddForce(sumOfForces);
 		}
 	}
 }
