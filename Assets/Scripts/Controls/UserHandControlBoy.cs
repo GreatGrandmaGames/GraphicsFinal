@@ -26,6 +26,14 @@ public class UserHandControlBoy : MonoBehaviour
 		}
 	}
 	
+	void OnDisable()
+	{
+		hand.DetachObject(currentPlanet);
+		hand.HoverUnlock(currentPlanet.GetComponent<Interactable>());
+
+		Destroy(currentPlanet);
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -44,50 +52,58 @@ public class UserHandControlBoy : MonoBehaviour
 		*/
 
 		Debug.Log(hand.startingHandType);
-		
-			if (rightHandControls.TriggerPulled.Down)
-			{
-				Place();
-				SpawnPlanet();
-			}
-			
+		float zScale = .1f;
+		if (rightHandControls.TriggerPulled.Down)
+		{
+			Place();
+			SpawnPlanet();
+		}
+		if (rightHandControls.TouchPadPressed.Any)
+		{
 			if (rightHandControls.TouchPadLocation.y > 0)
 			{
 				//increase Z (farther away from you)
+
+				Vector3 vec3 = new Vector3(currentPlanet.transform.localPosition.x, currentPlanet.transform.localPosition.y, currentPlanet.transform.localPosition.z + zScale * Time.deltaTime);
+				currentPlanet.transform.localPosition = vec3;
 			}
 			if (rightHandControls.TouchPadLocation.y < 0)
 			{
-				//decrease Z (closer to you)
+				Vector3 vec3 = new Vector3(currentPlanet.transform.localPosition.x, currentPlanet.transform.localPosition.y, currentPlanet.transform.localPosition.z - zScale * Time.deltaTime);
+				currentPlanet.transform.localPosition = vec3;
 			}
-
-		
-			float scale = .1f;
-
-			if (leftHandControls.TouchPadPressed.Any)
-			{
-				if (leftHandControls.TouchPadLocation.y > 0)
-				{
-					Debug.Log(currentPlanet + "IN TOUCHPADPRESSED");
-					Vector3 newLocation = new Vector3(currentPlanet.transform.localScale.x + Time.deltaTime * scale, currentPlanet.transform.localScale.y + Time.deltaTime * scale, currentPlanet.transform.localScale.z + Time.deltaTime * scale);
-					currentPlanet.transform.localScale = newLocation;
-					Debug.Log("Scaling up");
-
-				}
-				if (leftHandControls.TouchPadLocation.y < 0)
-				{
-					Vector3 newLocation = new Vector3(currentPlanet.transform.localScale.x + Time.deltaTime * -scale, currentPlanet.transform.localScale.y + Time.deltaTime * -scale, currentPlanet.transform.localScale.z + Time.deltaTime * -scale);
-					currentPlanet.transform.localScale = newLocation;
-
-					Debug.Log("Scaling down");
-				}
-			}
-		
-		/*
-		if (hand.controller.GetAxis(Valve.VR.EVRButtonId.k_EButton_Grip).y > 0)
-		{
-			//switch ?!?!??!?
 		}
-		*/
+		
+		float scale = .1f;
+
+		if (leftHandControls.TouchPadPressed.Any)
+		{
+			if (leftHandControls.TouchPadLocation.y > 0)
+			{
+				Debug.Log(currentPlanet + "IN TOUCHPADPRESSED");
+				Vector3 newLocation = new Vector3(currentPlanet.transform.localScale.x + Time.deltaTime * scale, currentPlanet.transform.localScale.y + Time.deltaTime * scale, currentPlanet.transform.localScale.z + Time.deltaTime * scale);
+				currentPlanet.transform.localScale = newLocation;
+				currentPlanet.GetComponent<Rigidbody>().mass += Time.deltaTime * scale;
+				Debug.Log("Scaling up");
+
+			}
+			if (leftHandControls.TouchPadLocation.y < 0)
+			{
+				Vector3 newLocation = new Vector3(currentPlanet.transform.localScale.x + Time.deltaTime * -scale, currentPlanet.transform.localScale.y + Time.deltaTime * -scale, currentPlanet.transform.localScale.z + Time.deltaTime * -scale);
+				currentPlanet.transform.localScale = newLocation;
+				currentPlanet.GetComponent<Rigidbody>().mass -= Time.deltaTime * scale;
+
+			Debug.Log("Scaling down");
+			}
+		}
+
+
+		//if (hand.controller.GetAxis(Valve.VR.EVRButtonId.k_EButton_Grip).y > 0)
+
+		//{
+			//switch ?!?!??!?
+		//}
+		
 	}
 
 	void SpawnPlanet()
@@ -101,7 +117,7 @@ public class UserHandControlBoy : MonoBehaviour
 		hand.HoverLock(currentPlanet.GetComponent<Interactable>());
 
 		Debug.Log(currentPlanet + "AFTER HOVERLOCK");
-
+		currentPlanet.transform.LookAt(hand.transform.position);
 		//childs it to the hand
 		Debug.Log("Planet Spawned!");
 	}
