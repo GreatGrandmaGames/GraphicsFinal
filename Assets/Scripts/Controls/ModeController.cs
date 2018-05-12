@@ -16,6 +16,8 @@ public class ModeController : MonoBehaviour
 	private GameObject longbowGameObject;
 	private GameObject arrowGameObject;
 
+	private bool switched;
+
 	void Start ()
 	{
 
@@ -34,18 +36,28 @@ public class ModeController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
+		HandControls primaryHC = ControlsManager.Instance.GetControlsFromHand (boyInUse.Hand);
+		HandControls otherHC = ControlsManager.Instance.GetControlsFromHand (boyInUse.otherHand);
 
-			if (boyInUse.enabled == false) {
-				DestroyLongbow();
-			} else {
-				SpawnLongbow ();
+		if (switched == false) {
+			if (primaryHC.TouchPadPressed.Any && otherHC.TouchPadPressed.Any) {
+				switched = true;
+
+				if (boyInUse.enabled == false) {
+					DestroyLongbow ();
+				} else {
+					SpawnLongbow ();
+				}
+
+				//This comes after so we can call boyInUse's OnEnabled without worrying the longbow is still attached
+				boyInUse.enabled = !boyInUse.enabled;
+
 			}
+		} else {
 
-			//This comes after so we can call boyInUse's OnEnabled without worrying the longbow is still attached
-			boyInUse.enabled = !boyInUse.enabled;
-
+			if (primaryHC.TouchPadPressed.Up || otherHC.TouchPadPressed.Up) {
+				switched = false;
+			}
 		}
 	}
 

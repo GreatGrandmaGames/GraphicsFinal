@@ -55,7 +55,7 @@ public class UserHandControlBoy : MonoBehaviour
 			Place();
 			SpawnPlanet();
 		}
-		if (rightHandControls.TouchPadPressed.Any)
+		if (rightHandControls.TouchPadTouched.Any)
 		{
 			if (rightHandControls.TouchPadLocation.y > 0)
 			{
@@ -73,7 +73,7 @@ public class UserHandControlBoy : MonoBehaviour
 		
 		float scale = .1f;
 
-		if (leftHandControls.TouchPadPressed.Any)
+		if (leftHandControls.TouchPadTouched.Any)
 		{
 			if (leftHandControls.TouchPadLocation.y > 0)
 			{
