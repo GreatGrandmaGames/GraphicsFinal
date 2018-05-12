@@ -6,9 +6,9 @@ using System.Linq;
 public class GravityManager : MonoBehaviour {
 
 	static GravityManager instance;
-	 
-	Rigidbody arrow;
-	GravityWell[] gravityWells;
+		 
+	Rigidbody[] arrow;
+	List<GravityWell> gravityWells;
 
 
 	public static GravityManager Instance {
@@ -25,29 +25,33 @@ public class GravityManager : MonoBehaviour {
 
 		instance = this;
 
-		gravityWells = Object.FindObjectsOfType<GravityWell> ();
+		gravityWells = Object.FindObjectsOfType<GravityWell> ().ToList();
 	}
 
-	public void SetArrow(Rigidbody rb){
+	public void SetArrow(Rigidbody[] rb){
 		this.arrow = rb;
+	}
+
+	public void AppendGravityWell(GravityWell gw){
+		this.gravityWells.Add (gw);
 	}
 
 	
 	void FixedUpdate () {
+		if (arrow != null) {
+			foreach (Rigidbody a in arrow) {
+				Vector3 sumOfForces = new Vector3 ();
 
-		if(arrow != null)
-		{
-			Vector3 sumOfForces = new Vector3();
+				foreach (GravityWell gw in gravityWells) {
 
-			foreach (GravityWell gw in gravityWells)
-			{
+					Vector3 force = gw.GetGravitationalForce (a.transform.position, a.mass);
 
-				Vector3 force = gw.GetGravitationalForce(arrow.transform.position, arrow.mass);
+					sumOfForces = new Vector3 (sumOfForces.x + force.x, sumOfForces.y + force.y, sumOfForces.z + force.z);
+				}
 
-				sumOfForces = new Vector3(sumOfForces.x + force.x, sumOfForces.y + force.y, sumOfForces.z + force.z);
+				Debug.Log (sumOfForces);
+				a.AddForce (sumOfForces);
 			}
-
-			arrow.AddForce(sumOfForces);
 		}
 	}
 }

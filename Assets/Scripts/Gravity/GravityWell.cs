@@ -13,6 +13,8 @@ public class GravityWell : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 
 		rb.useGravity = false;
+
+		GravityManager.Instance.AppendGravityWell (this);
 	}
 
 	public Vector3 GetGravitationalForce(Vector3 objPosition, float objMass){

@@ -95,8 +95,10 @@ namespace Valve.VR.InteractionSystem
 				rb.useGravity = false;
 				rb.isKinematic = false;
 
-				GravityManager.Instance.SetArrow(rb);
 			}
+
+			GravityManager.Instance.SetArrow(GetComponentsInChildren<Rigidbody>());
+
 
 			//end custom
 
