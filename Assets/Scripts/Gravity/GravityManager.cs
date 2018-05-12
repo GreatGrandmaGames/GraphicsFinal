@@ -25,7 +25,7 @@ public class GravityManager : MonoBehaviour {
 
 		instance = this;
 
-		gravityWells = Object.FindObjectsOfType<GravityWell> ().ToList();
+		gravityWells = new List<GravityWell> ();
 	}
 
 	public void SetArrow(Rigidbody[] rb){
@@ -49,7 +49,6 @@ public class GravityManager : MonoBehaviour {
 					sumOfForces = new Vector3 (sumOfForces.x + force.x, sumOfForces.y + force.y, sumOfForces.z + force.z);
 				}
 
-				Debug.Log (sumOfForces);
 				a.AddForce (sumOfForces);
 			}
 		}
