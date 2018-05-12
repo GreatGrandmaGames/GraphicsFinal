@@ -14,16 +14,22 @@ public class UserHandControlBoy : MonoBehaviour
 	public GameObject prefabPlanet;
 	private GameObject currentPlanet;
 
-	// Use this for initialization
-	void Start()
+	public Hand Hand {
+		get {
+			return hand;
+		}
+	}
+
+	void Awake()
 	{
 		hand = GetComponent<Hand>();
 
-		Debug.Log(hand);
+		hand.otherHand = otherHand;
+		otherHand.otherHand = hand;
+	}
 
-		if (hand.startingHandType == Hand.HandType.Right) { 
-			SpawnPlanet();
-		}
+	void OnEnable(){
+		SpawnPlanet();
 	}
 	
 	void OnDisable()
@@ -37,21 +43,12 @@ public class UserHandControlBoy : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log(currentPlanet + "IN update");
+		Debug.Log(hand + "IN update");
 
 
 		HandControls rightHandControls = ControlsManager.Instance.GetControlsFromHand(hand);
 		HandControls leftHandControls = ControlsManager.Instance.GetControlsFromHand(otherHand);
 
-
-		/*
-		if (hc.TriggerPulled.Down)
-		{
-			shoot();
-		}
-		*/
-
-		Debug.Log(hand.startingHandType);
 		float zScale = .1f;
 		if (rightHandControls.TriggerPulled.Down)
 		{

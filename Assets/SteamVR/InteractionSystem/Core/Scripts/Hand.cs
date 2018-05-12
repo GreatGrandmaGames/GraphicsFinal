@@ -476,10 +476,18 @@ namespace Valve.VR.InteractionSystem
 			if ( applicationLostFocusObject.activeSelf )
 				return;
 
+			if ( !playerInstance )
+			{
+				//This method is being called before start
+				Debug.LogWarning( "No player instance found in Hand UpdateHovering()" );
+				return;
+			}
+
 			float closestDistance = float.MaxValue;
 			Interactable closestInteractable = null;
 
 			// Pick the closest hovering
+
 			float flHoverRadiusScale = playerInstance.transform.lossyScale.x;
 			float flScaledSphereRadius = hoverSphereRadius * flHoverRadiusScale;
 
