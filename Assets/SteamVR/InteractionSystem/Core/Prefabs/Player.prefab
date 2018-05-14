@@ -226,7 +226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 476540}
   - component: {fileID: 11450312}
-  - component: {fileID: 114070019686901510}
   m_Layer: 26
   m_Name: Hand1
   m_TagString: Untagged
@@ -727,7 +726,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -762,7 +760,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 9e995e61de69d8647ae2b2d65eceab3f, type: 2}
   m_StaticBatchInfo:
@@ -1251,19 +1248,6 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
---- !u!114 &114070019686901510
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e332c900272ec4e95bc8a7a4a1a7ae28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabPlanet: {fileID: 1895216613978544, guid: f78b826e92994514fa0b35a9218951f2,
-    type: 2}
 --- !u!114 &114078009615849526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1275,5 +1259,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e332c900272ec4e95bc8a7a4a1a7ae28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabPlanet: {fileID: 1895216613978544, guid: f78b826e92994514fa0b35a9218951f2,
-    type: 2}
+  otherHand: {fileID: 11450312}
+  prefabPlanet: {fileID: 0}

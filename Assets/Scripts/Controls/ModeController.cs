@@ -43,7 +43,8 @@ public class ModeController : MonoBehaviour
 			if (primaryHC.TouchPadPressed.Any && otherHC.TouchPadPressed.Any) {
 				switched = true;
 
-				if (boyInUse.enabled == false) {
+				if (boyInUse.enabled == false)
+				{
 					DestroyLongbow ();
 				} else {
 					SpawnLongbow ();

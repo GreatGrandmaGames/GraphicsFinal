@@ -21,6 +21,9 @@ GameObject:
   - component: {fileID: 4789305195252868}
   - component: {fileID: 33627644674038590}
   - component: {fileID: 23738576699746032}
+  - component: {fileID: 54936165854031148}
+  - component: {fileID: 114151126664626246}
+  - component: {fileID: 135244113554072584}
   m_Layer: 0
   m_Name: betterplanet2
   m_TagString: Untagged
@@ -34,13 +37,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1332817186821752}
-  m_LocalRotation: {x: -0.3971081, y: 0.2869185, z: 0.07493113, w: 0.86854374}
-  m_LocalPosition: {x: -7.2794213, y: -4.9244547, z: 5.777808}
-  m_LocalScale: {x: -19.841713, y: -18.921623, z: -1.9491266}
+  m_LocalRotation: {x: -0.16547301, y: 0.29654148, z: 0.0002263577, w: 0.9405753}
+  m_LocalPosition: {x: -2.47, y: 2.08, z: 5.75}
+  m_LocalScale: {x: -20.764408, y: -19.801533, z: -2.0397666}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -18.144001, y: 35.941, z: -5.9020004}
 --- !u!23 &23738576699746032
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -82,3 +85,41 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1332817186821752}
   m_Mesh: {fileID: 4300000, guid: 2774f14eec11f4c0cbc1c7344f7f84ca, type: 3}
+--- !u!54 &54936165854031148
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1332817186821752}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &114151126664626246
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1332817186821752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62508e54e7ec6194fb2b353875d13e11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &135244113554072584
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1332817186821752}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.056980155
+  m_Center: {x: -0.009209773, y: 0.0000000013041075, z: -0.468441}

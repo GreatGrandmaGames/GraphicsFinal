@@ -8,11 +8,13 @@ public class Target : MonoBehaviour {
 
 	void OnCollisionEnter (Collision col)
 	{
-		if(col.gameObject.tag == "projectile") // when the arrow collides
-		{
+		Debug.Log("DAddy-o we have a collision!");
+		Debug.Log(Scoring.playerScore);
+		//if(col.gameObject.tag == "projectile") // when the arrow collides
+		//{
 			Debug.Log ("you hit a target!");
 			Scoring.playerScore += scoreToAdd;
-		}
+		//}
 	}
 
 }

@@ -49,7 +49,7 @@ public class UserHandControlBoy : MonoBehaviour
 		HandControls rightHandControls = ControlsManager.Instance.GetControlsFromHand(hand);
 		HandControls leftHandControls = ControlsManager.Instance.GetControlsFromHand(otherHand);
 
-		float zScale = .1f;
+		float zScale = .5f;
 		if (rightHandControls.TriggerPulled.Down)
 		{
 			Place();
@@ -71,7 +71,7 @@ public class UserHandControlBoy : MonoBehaviour
 			}
 		}
 		
-		float scale = .1f;
+		float scale = .5f;
 
 		if (leftHandControls.TouchPadTouched.Any)
 		{
@@ -108,7 +108,7 @@ public class UserHandControlBoy : MonoBehaviour
 		//instantiate planet
 		currentPlanet = Instantiate(prefabPlanet, Vector3.zero, Quaternion.identity);
 		Debug.Log(currentPlanet + "IN SPAWNPLANET()");
-		currentPlanet.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+		//currentPlanet.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 
 		hand.AttachObject(currentPlanet, this.attachmentFlags);
 		hand.HoverLock(currentPlanet.GetComponent<Interactable>());
